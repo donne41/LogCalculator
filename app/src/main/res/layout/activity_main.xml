@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sågblocks Kalkylator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.049"
+            android:textSize="24sp"
+            android:layout_margin="10dp"
+    />
+
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/big_input"
+              android:hint="Största diameter"
+              android:layout_margin="20dp"
+              />
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/small_input"
+              android:hint="Minsta diameter"
+              android:layout_margin="20dp"
+    />
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:id="@+id/calculateLog"
+            android:text="Beräkna"
+            />
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="20dp"
+              android:id="@+id/result"
+              android:text="Största block: "
+    />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="20dp"
+              android:id="@+id/twoInch"
+              android:text="Antal 2 tum: "
+    />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="20dp"
+              android:id="@+id/oneInch"
+              android:text="Antal 1 tum: "
+    />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_margin="20dp"
+              android:id="@+id/spill"
+              android:text="Spill: "
+    />
+
+
+
+
+
+
+
+</LinearLayout>
