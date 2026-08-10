@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var twoInch: TextView
     lateinit var oneInch: TextView
     lateinit var spillage: TextView
+    lateinit var errorText: TextView
     val logCalc: SquareCalculator = SquareCalculator()
 
 
@@ -43,42 +44,54 @@ class MainActivity : AppCompatActivity() {
         twoInch = findViewById(R.id.twoInch)
         oneInch = findViewById(R.id.oneInch)
         spillage = findViewById(R.id.spill)
-
+        errorText = findViewById(R.id.textinput_error)
     }
 
     private fun setupListeners() {
         calcbtn.setOnClickListener {
-            checkInput()
+            try {
+                errorText.text = ""
+                checkInput()
+            }catch (e: IllegalArgumentException){
+                errorText.text = e.message
+            }
         }
     }
 
     private fun checkInput() {
         var inputBig = bigDiameter.text.toString()
+            .trim()
             .replace(',', '.')
             .toDoubleOrNull()
         var inputSmall = smallDiameter.text.toString()
             .trim()
             .replace(',', '.')
             .toDoubleOrNull()
-        if (inputSmall == null) {
-            inputSmall = inputBig
-        } else if (inputBig == null) {
-            inputBig = inputSmall
-        }
         if (inputBig == null && inputSmall == null) {
             throw IllegalArgumentException("Faulty or no input detected")
         }
-        if (inputBig < inputSmall) {
-            val tempV = inputBig
-            inputBig = inputSmall
-            inputSmall = tempV
+        val big: Double
+        val small: Double
+
+        if (inputSmall == null) {
+            small = inputBig!!
+            big = inputBig
+            smallDiameter.setText(big.toString())
+        } else if (inputBig == null) {
+            big = inputSmall
+            small = inputSmall
+            bigDiameter.setText(small.toString())
+        }else if(inputBig < inputSmall){
+            big = inputSmall
+            small = inputBig
+        }else {
+            big = inputBig
+            small = inputSmall
         }
-        calculate(inputBig, inputSmall)
+        calculate(big,small)
     }
 
     private fun calculate(bigDia: Double, smallDia: Double) {
-        Log.d("DEBUGG", "Calculate körs")
-
         logCalc.doubleDiaBig = bigDia
         logCalc.doubleDiaSmall = smallDia
         var biggestBlock: Double
@@ -94,9 +107,8 @@ class MainActivity : AppCompatActivity() {
             Log.d("DEBUGG", "spill var för hög, ersätter..")
             val biggestBlock = biggestBlock - biggestYield.spill
             val biggestYield = logCalc.getCutAmounts(biggestBlock)
-
         }
-        resultTv.text = "Största block: $biggestBlock"
+        resultTv.text = "Största block: $biggestBlock tum"
         twoInch.text = "Antal 2 tum: ${biggestYield.twoInches}"
         oneInch.text = "Antal 1 tum: ${biggestYield.oneInches}"
         spillage.text = "Spill: ${biggestYield.spill}"
