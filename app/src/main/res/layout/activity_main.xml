@@ -35,6 +35,7 @@
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:layout_gravity="right"
             android:id="@+id/calculateLog"
             android:text="Beräkna"
             />
@@ -49,24 +50,31 @@
               android:layout_margin="20dp"
               android:id="@+id/result"
               android:text="Största block: "
+              android:textSize="17sp"
     />
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_margin="20dp"
               android:id="@+id/twoInch"
               android:text="Antal 2 tum: "
+              android:textSize="17sp"
+
     />
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_margin="20dp"
               android:id="@+id/oneInch"
               android:text="Antal 1 tum: "
+              android:textSize="17sp"
+
     />
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_margin="20dp"
               android:id="@+id/spill"
               android:text="Spill: "
+              android:textSize="17sp"
+
     />
 
 

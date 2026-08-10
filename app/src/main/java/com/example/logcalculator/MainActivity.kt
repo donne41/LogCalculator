@@ -94,12 +94,9 @@ class MainActivity : AppCompatActivity() {
     private fun calculate(bigDia: Double, smallDia: Double) {
         logCalc.doubleDiaBig = bigDia
         logCalc.doubleDiaSmall = smallDia
-        var biggestBlock: Double
-        var biggestYield: Yield
-        biggestBlock = logCalc.getInchBlock(logCalc.ellipsSquare)
-        biggestYield = logCalc.getCutAmounts(biggestBlock)
+        val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
+        val biggestYield: Yield = logCalc.getCutAmounts(biggestBlock)
         present(biggestYield, biggestBlock)
-
     }
 
     private fun present(biggestYield: Yield, biggestBlock: Double) {
