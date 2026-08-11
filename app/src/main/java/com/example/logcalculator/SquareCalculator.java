@@ -5,6 +5,9 @@ public class SquareCalculator {
     double doubleDiaBig;
     double doubleDiaSmall;
     double cutWidth = 0.25;
+    boolean inputMetric = true;
+    boolean outputMetric = false;
+    int preferredThickness = 1;
 
     public SquareCalculator(double bigDia, double smallDia) {
         doubleDiaBig = bigDia;
@@ -14,6 +17,40 @@ public class SquareCalculator {
     public SquareCalculator() {
         doubleDiaBig = 0;
         doubleDiaSmall = 0;
+    }
+
+    private double convertToMetric(double inches) {
+        return inches * 2.54;
+    }
+
+    private double convertToImperial(double cm) {
+        return cm / 2.54;
+    }
+
+    private double roundToQuarter(double length) {
+        return Math.round((length * 4) / 4);
+    }
+
+    private void checkUnit(boolean isMetric) {
+        if (isMetric) {
+
+        } else {
+
+        }
+    }
+
+    public Yield getYield(double biggestDia, double smallestDia) {
+        if (inputMetric) {
+            doubleDiaBig = biggestDia;
+            doubleDiaSmall = smallestDia;
+        } else {
+            doubleDiaBig = convertToMetric(biggestDia);
+            doubleDiaSmall = convertToMetric(smallestDia);
+        }
+        double imperialSquare = roundToQuarter(convertToImperial(getEllipsSquare()));
+        return calculatePlanks(imperialSquare, preferredThickness);
+        //switch outpuutunits
+
     }
 
 
@@ -30,7 +67,7 @@ public class SquareCalculator {
         return Math.round((cmBlock / 2.54) * 4.0) / 4.0;
     }
 
-    public Yield getCutAmounts(double blockSize) {
+    public Yield calculatePlanks(double blockSize, int preferredThickness) {
 
         int amountTwoInch = (int) ((blockSize + cutWidth) / (2 + cutWidth));
         int amountOneInch = 0;

@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         logCalc.doubleDiaBig = bigDia
         logCalc.doubleDiaSmall = smallDia
         val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
-        val biggestYield: Yield = logCalc.getCutAmounts(biggestBlock)
+        val biggestYield: Yield = logCalc.calculatePlanks(biggestBlock)
         present(biggestYield, biggestBlock)
     }
 
@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         if (biggestYield.spill > 0) {
             Log.d("DEBUGG", "spill var för hög, ersätter..")
             val biggestBlock = biggestBlock - biggestYield.spill
-            val biggestYield = logCalc.getCutAmounts(biggestBlock)
+            val biggestYield = logCalc.calculatePlanks(biggestBlock)
         }
         resultTv.text = "Största block: $biggestBlock tum"
         twoInch.text = "Antal 2 tum: ${biggestYield.twoInches}"
