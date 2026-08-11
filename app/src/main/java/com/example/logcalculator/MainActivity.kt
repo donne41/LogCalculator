@@ -47,6 +47,11 @@ class MainActivity : AppCompatActivity() {
         }
         setupViews()
         setupListeners()
+        initalValues()
+    }
+
+
+    private fun initalValues() {
         val initalThickness = 1
         val initalProgress = initalThickness - thicknessMin
         val range = thicknessMax - thicknessMin
