@@ -1,7 +1,6 @@
 package com.example.logcalculator
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
@@ -89,25 +88,26 @@ class MainActivity : AppCompatActivity() {
         inputUnit.setOnClickListener {
             if (inputUnit.isChecked) {
                 inputUnitText.text = "tum"
-                inputUnitIsMetric = false
+                logCalc.setInputMetric(false)
             } else {
                 inputUnitText.text = "cm"
-                inputUnitIsMetric = true
+                logCalc.setInputMetric(true)
             }
         }
         outputUnit.setOnClickListener {
             if (outputUnit.isChecked) {
                 outputUnitText.text = "tum"
-                outputUnitIsMetric = false
+                logCalc.setOutputMetric(false)
             } else {
                 outputUnitText.text = "cm"
-                outputUnitIsMetric = true
+                logCalc.setOutputMetric(true)
             }
         }
         thicknessBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val currentValue = thicknessMin + progress
                 thicknessText.text = "Tjocklek: $currentValue"
+                logCalc.setPreferredThickness(currentValue)
                 // send this value to priority yield.
             }
 
@@ -150,21 +150,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculate(bigDia: Double, smallDia: Double) {
-        logCalc.doubleDiaBig = bigDia
-        logCalc.doubleDiaSmall = smallDia
-        val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
-        val biggestYield: Yield = logCalc.calculatePlanks(biggestBlock)
-        present(biggestYield, biggestBlock)
+        //logCalc.doubleDiaBig = bigDia
+        //logCalc.doubleDiaSmall = smallDia
+        //val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
+        //val biggestYield: Yield = logCalc.calculatePlanks(biggestBlock)
+        val yield: Yield = logCalc.getYield(bigDia, smallDia)
+        present(yield)
     }
 
-    private fun present(biggestYield: Yield, biggestBlock: Double) {
-        if (biggestYield.spill > 0) {
-            Log.d("DEBUGG", "spill var för hög, ersätter..")
-            val biggestBlock = biggestBlock - biggestYield.spill
-            val biggestYield = logCalc.calculatePlanks(biggestBlock)
-        }
-        resultTv.text = "Största block: $biggestBlock tum"
-        twoInch.text = "Antal 2 tum: ${biggestYield.twoInches}"
+    private fun present(biggestYield: Yield) {
+//        if (biggestYield.spill > 0) {
+//            Log.d("DEBUGG", "spill var för hög, ersätter..")
+//            val biggestBlock = biggestYield.blockSize - biggestYield.spill
+//            //Check for unit missmatch here
+//            val biggestYield = logCalc.calculatePlanks(biggestBlock)
+//        }
+        resultTv.text = "Största block: ${biggestYield.blockSize}"
+        twoInch.text = "Antal ${biggestYield.preferredThickness}: ${biggestYield.preferredPlank}"
         oneInch.text = "Antal 1 tum: ${biggestYield.oneInches}"
         spillage.text = "Spill: ${biggestYield.spill}"
     }

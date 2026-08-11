@@ -1,30 +1,50 @@
 package com.example.logcalculator;
 
 public class Yield {
-    private int twoInches;
+    private double blockSize;
+    private int preferredPlank;
     private int oneInches;
     private double spill;
+    private int preferredThickness;
 
-    public Yield(int amountTwo, int amountOne, double spill) {
-        twoInches = amountTwo;
+    public Yield(int amountPreferred, int amountOne, double spill, double blockSize, int thickness) {
+        preferredPlank = amountPreferred;
         oneInches = amountOne;
         this.spill = spill;
+        this.blockSize = blockSize;
+        preferredThickness = thickness;
     }
 
-    public Yield(int amountTwo, int amountOne) {
-        this(amountTwo, amountOne, 0);
+    public Yield(int amountOne, double spill, double blockSize, int preferredThickness) {
+        this(0, amountOne, spill, blockSize, preferredThickness);
     }
 
     public Yield() {
-        this(0, 0, 0);
+        this(0, 0, 0, 0);
     }
 
-    public int getTwoInches() {
-        return twoInches;
+    public double getBlockSize() {
+        return blockSize;
     }
 
-    public void setTwoInches(int twoInches) {
-        this.twoInches = twoInches;
+    public void setBlockSize(double blockSize) {
+        this.blockSize = blockSize;
+    }
+
+    public int getPreferredPlank() {
+        return preferredPlank;
+    }
+
+    public void setPreferredPlank(int preferredPlank) {
+        this.preferredPlank = preferredPlank;
+    }
+
+    public int getPreferredThickness() {
+        return preferredThickness;
+    }
+
+    public void setPreferredThickness(int preferredThickness) {
+        this.preferredThickness = preferredThickness;
     }
 
     public int getOneInches() {

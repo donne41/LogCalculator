@@ -31,12 +31,16 @@ public class SquareCalculator {
         return Math.round((length * 4) / 4);
     }
 
-    private void checkUnit(boolean isMetric) {
-        if (isMetric) {
+    public void setInputMetric(boolean inputMetric) {
+        this.inputMetric = inputMetric;
+    }
 
-        } else {
+    public void setOutputMetric(boolean outputMetric) {
+        this.outputMetric = outputMetric;
+    }
 
-        }
+    public void setPreferredThickness(int preferredThickness) {
+        this.preferredThickness = preferredThickness;
     }
 
     public Yield getYield(double biggestDia, double smallestDia) {
@@ -48,9 +52,26 @@ public class SquareCalculator {
             doubleDiaSmall = convertToMetric(smallestDia);
         }
         double imperialSquare = roundToQuarter(convertToImperial(getEllipsSquare()));
-        return calculatePlanks(imperialSquare, preferredThickness);
-        //switch outpuutunits
-
+        Yield commonYield = new Yield();
+        if (preferredThickness == 1) {
+            Yield plankYield = calculatePlanksOfOneInch(imperialSquare);
+            commonYield.setOneInches(plankYield.getOneInches());
+            commonYield.setSpill(plankYield.getSpill());
+            commonYield.setPreferredThickness(preferredThickness);
+        } else {
+            Yield preferredYield = calculatePreferredPlanks(imperialSquare, preferredThickness);
+            commonYield.setPreferredPlank(preferredYield.getPreferredPlank());
+            commonYield.setOneInches(preferredYield.getOneInches());
+            commonYield.setSpill(preferredYield.getSpill());
+            commonYield.setPreferredThickness(preferredThickness);
+        }
+        if (outputMetric) {
+            commonYield.setBlockSize(convertToMetric(imperialSquare));
+            return commonYield;
+        } else {
+            commonYield.setBlockSize(imperialSquare);
+            return commonYield;
+        }
     }
 
 
@@ -63,25 +84,47 @@ public class SquareCalculator {
         return divTop / divBottom;
     }
 
-    public double getInchBlock(double cmBlock) {
-        return Math.round((cmBlock / 2.54) * 4.0) / 4.0;
+    public Yield calculatePlanksOfOneInch(double blockSize) {
+        int preferredThickness = 1;
+        int amountOneInch = (int) ((blockSize + cutWidth) / (1 + cutWidth));
+        int cutAmount = amountOneInch - 1;
+        double spill = blockSize - (amountOneInch + cutAmount * 0.25);
+        return new Yield(amountOneInch, spill, blockSize, preferredThickness);
     }
 
-    public Yield calculatePlanks(double blockSize, int preferredThickness) {
-
-        int amountTwoInch = (int) ((blockSize + cutWidth) / (2 + cutWidth));
+    public Yield calculatePreferredPlanks(double blockSize, int preferredThickness) {
+        int amountOfPreferred = (int) ((blockSize + cutWidth) / (preferredThickness + cutWidth));
+        double rest = blockSize - amountOfPreferred * preferredThickness - ((amountOfPreferred - 1) * 0.25);
         int amountOneInch = 0;
-        double possibleOneInch = 0;
+        int cutAmount;
+        double spill = 0;
+        if (rest != 0) {
+            amountOneInch = (int) ((rest + cutWidth) / (1 + cutWidth));
+            cutAmount = amountOfPreferred + amountOneInch - 1;
+            spill = blockSize - ((amountOfPreferred * preferredThickness + amountOneInch) + cutAmount * 0.25);
+        } else {
+            cutAmount = amountOfPreferred - 1;
+            spill = blockSize - (amountOfPreferred * preferredThickness + cutAmount * 0.25);
+        }
+        return new Yield(amountOfPreferred, amountOneInch, spill, blockSize, preferredThickness);
+
+    }
+
+    public Yield calculateBestYield(double blockSize) {
+        int preferredThickness = 2;
+        int amountOfPreffered = (int) ((blockSize + cutWidth) / (preferredThickness + cutWidth));
+        int amountOneInch = 0;
+        double possibleOneInch;
         boolean evenOneInch = false;
         int cutAmount;
         double spill;
-        double rest = blockSize - amountTwoInch * 2 - ((amountTwoInch - 1) * 0.25);
-        while (rest != 0 && amountTwoInch > 0 && !evenOneInch) {
+        double rest = blockSize - amountOfPreffered * preferredThickness - ((amountOfPreffered - 1) * 0.25);
+        while (rest != 0 && amountOfPreffered > 0 && !evenOneInch) {
             possibleOneInch = (rest) % (1 + cutWidth);
             if (possibleOneInch == 0 || possibleOneInch == 1.0) {
                 amountOneInch = (int) ((rest + cutWidth) / (1 + cutWidth));
-                cutAmount = amountTwoInch + amountOneInch - 1;
-                spill = blockSize - ((amountTwoInch * 2 + amountOneInch * 1) + cutAmount * 0.25);
+                cutAmount = amountOfPreffered + amountOneInch - 1;
+                spill = blockSize - ((amountOfPreffered * preferredThickness + amountOneInch) + cutAmount * 0.25);
                 if (spill > 0 || spill < 0) {
                     evenOneInch = false;
                 } else {
@@ -89,19 +132,19 @@ public class SquareCalculator {
                     continue;
                 }
             }
-            if (amountTwoInch % 2 != 0) {
+            if (amountOfPreffered % 2 != 0) {
                 rest += 0.25;
             }
-            amountTwoInch--;
-            rest += 2;
+            amountOfPreffered--;
+            rest += preferredThickness;
 
         }
-        if (amountTwoInch == 0) {
+        if (amountOfPreffered == 0) {
             amountOneInch = (int) ((blockSize + cutWidth) / (1 + cutWidth));
         }
-        cutAmount = amountTwoInch + amountOneInch - 1;
-        spill = blockSize - ((amountTwoInch * 2 + amountOneInch * 1) + cutAmount * 0.25);
+        cutAmount = amountOfPreffered + amountOneInch - 1;
+        spill = blockSize - ((amountOfPreffered * preferredThickness + amountOneInch) + cutAmount * 0.25);
 
-        return new Yield(amountTwoInch, amountOneInch, spill);
+        return new Yield(amountOfPreffered, amountOneInch, spill, blockSize, preferredThickness);
     }
 }
