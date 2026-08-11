@@ -133,8 +133,8 @@ class MainActivity : AppCompatActivity() {
             .trim()
             .replace(',', '.')
             .toDoubleOrNull()
-        if (inputBig == null && inputSmall == null) {
-            throw IllegalArgumentException("Faulty or no input detected")
+        if (inputBig == null && inputSmall == null || inputBig == 0.0 || inputSmall == 0.0) {
+            throw IllegalArgumentException("Felaktig eller ingen diameter inslagen")
         }
         val big: Double
         val small: Double
