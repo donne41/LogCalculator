@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LogCalculator</string>
+    <string name="inmatningsenhet">Inmatningsenhet:</string>
+    <string name="utmatningsenhet">Utmatningsenhet:</string>
+    <string name="cm">cm</string>
+    <string name="tum">tum</string>
+    <string name="calc">Beräkna</string>
+    <string name="selected_thickness">Tjocklek: 1</string>
+
 </resources>

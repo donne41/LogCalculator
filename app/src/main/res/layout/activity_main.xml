@@ -7,7 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+
+>
+
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,26 +22,121 @@
             android:textSize="24sp"
             android:layout_margin="10dp"
     />
-
-    <EditText android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/big_input"
-              android:hint="Största diameter"
-              android:layout_margin="20dp"
-              />
-    <EditText android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/small_input"
-              android:hint="Minsta diameter"
-              android:layout_margin="20dp"
-    />
-    <Button android:layout_width="wrap_content"
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_gravity="right"
-            android:id="@+id/calculateLog"
-            android:text="Beräkna"
+    >
+
+        <EditText android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/big_input"
+                  android:hint="Största diameter"
+                  android:layout_margin="20dp"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/inmatningsenhet"
+                  android:layout_marginEnd="5dp"
+        >
+
+        </TextView>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/cm"
+                  android:id="@+id/inputUnit"
+        >
+
+        </TextView>
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_switch"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:layout_gravity="end"
+
+        />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+
+        <EditText android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/small_input"
+                  android:hint="Minsta diameter"
+                  android:layout_margin="20dp"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/utmatningsenhet"
+                  android:layout_margin="3dp"
+        >
+        </TextView>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/tum"
+                  android:id="@+id/outputUnit"
+        >
+        </TextView>
+
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/output_switch"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:layout_gravity="end"
+
+        />
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_gravity="end"
+                android:id="@+id/calculateLog"
+                android:text="@string/calc"
+        />
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+        >
+            <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/thickness_bar"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:progress="1"
+
             />
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="5dp"
+                      android:id="@+id/selected_thickness"
+                      android:text="@string/selected_thickness"
+            >
+
+            </TextView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
@@ -76,11 +174,6 @@
               android:textSize="17sp"
 
     />
-
-
-
-
-
 
 
 </LinearLayout>

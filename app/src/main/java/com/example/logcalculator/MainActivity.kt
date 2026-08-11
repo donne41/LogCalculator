@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -20,6 +22,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var oneInch: TextView
     lateinit var spillage: TextView
     lateinit var errorText: TextView
+    lateinit var inputUnit: SwitchCompat
+    lateinit var outputUnit: SwitchCompat
+    lateinit var inputUnitText: TextView
+    lateinit var outputUnitText: TextView
+    lateinit var thicknessBar: SeekBar
+    lateinit var thicknessText: TextView
+
+    var inputUnitIsMetric: Boolean = true
+    var outputUnitIsMetric: Boolean = false
+    private val thicknessMin: Int = 1
+    private val thicknessMax: Int = 5
     val logCalc: SquareCalculator = SquareCalculator()
 
 
@@ -34,6 +47,12 @@ class MainActivity : AppCompatActivity() {
         }
         setupViews()
         setupListeners()
+        val initalThickness = 1
+        val initalProgress = initalThickness - thicknessMin
+        val range = thicknessMax - thicknessMin
+        thicknessBar.progress = initalProgress
+        thicknessBar.max = range
+        outputUnit.isChecked = true
     }
 
     private fun setupViews() {
@@ -45,6 +64,12 @@ class MainActivity : AppCompatActivity() {
         oneInch = findViewById(R.id.oneInch)
         spillage = findViewById(R.id.spill)
         errorText = findViewById(R.id.textinput_error)
+        inputUnit = findViewById(R.id.input_switch)
+        outputUnit = findViewById(R.id.output_switch)
+        inputUnitText = findViewById(R.id.inputUnit)
+        outputUnitText = findViewById(R.id.outputUnit)
+        thicknessBar = findViewById(R.id.thickness_bar)
+        thicknessText = findViewById(R.id.selected_thickness)
     }
 
     private fun setupListeners() {
@@ -56,6 +81,34 @@ class MainActivity : AppCompatActivity() {
                 errorText.text = e.message
             }
         }
+        inputUnit.setOnClickListener {
+            if (inputUnit.isChecked) {
+                inputUnitText.text = "tum"
+                inputUnitIsMetric = false
+            } else {
+                inputUnitText.text = "cm"
+                inputUnitIsMetric = true
+            }
+        }
+        outputUnit.setOnClickListener {
+            if (outputUnit.isChecked) {
+                outputUnitText.text = "tum"
+                outputUnitIsMetric = false
+            } else {
+                outputUnitText.text = "cm"
+                outputUnitIsMetric = true
+            }
+        }
+        thicknessBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val currentValue = thicknessMin + progress
+                thicknessText.text = "Tjocklek: $currentValue"
+                // send this value to priority yield.
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     private fun checkInput() {
