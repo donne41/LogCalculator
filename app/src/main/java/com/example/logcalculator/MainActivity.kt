@@ -88,27 +88,35 @@ class MainActivity : AppCompatActivity() {
         inputUnit.setOnClickListener {
             if (inputUnit.isChecked) {
                 inputUnitText.text = "tum"
+                inputUnitIsMetric = false
                 logCalc.setInputMetric(false)
             } else {
                 inputUnitText.text = "cm"
+                inputUnitIsMetric = true
                 logCalc.setInputMetric(true)
             }
         }
         outputUnit.setOnClickListener {
             if (outputUnit.isChecked) {
                 outputUnitText.text = "tum"
+                outputUnitIsMetric = false
                 logCalc.setOutputMetric(false)
             } else {
                 outputUnitText.text = "cm"
+                outputUnitIsMetric = true
                 logCalc.setOutputMetric(true)
             }
         }
         thicknessBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val currentValue = thicknessMin + progress
-                thicknessText.text = "Tjocklek: $currentValue"
+                var currentValue = thicknessMin + progress
+                if (outputUnitIsMetric) {
+                    val currentValueText = currentValue * 2.54
+                    thicknessText.text = "Tjocklek: ${currentValueText} cm"
+                } else {
+                    thicknessText.text = "Tjocklek: ${currentValue} tum"
+                }
                 logCalc.setPreferredThickness(currentValue)
-                // send this value to priority yield.
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -155,19 +163,26 @@ class MainActivity : AppCompatActivity() {
         //val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
         //val biggestYield: Yield = logCalc.calculatePlanks(biggestBlock)
         val yield: Yield = logCalc.getYield(bigDia, smallDia)
-        present(yield)
+        if (outputUnitIsMetric) {
+            present(logCalc.convertYieldUnitToMetric(yield))
+        } else {
+            present(yield)
+        }
     }
 
     private fun present(biggestYield: Yield) {
-//        if (biggestYield.spill > 0) {
-//            Log.d("DEBUGG", "spill var för hög, ersätter..")
-//            val biggestBlock = biggestYield.blockSize - biggestYield.spill
-//            //Check for unit missmatch here
-//            val biggestYield = logCalc.calculatePlanks(biggestBlock)
-//        }
-        resultTv.text = "Största block: ${biggestYield.blockSize}"
-        twoInch.text = "Antal ${biggestYield.preferredThickness}: ${biggestYield.preferredPlank}"
-        oneInch.text = "Antal 1 tum: ${biggestYield.oneInches}"
-        spillage.text = "Spill: ${biggestYield.spill}"
+        val selectedUnit: String
+        val oneinchFixed: String
+        if (outputUnitIsMetric) {
+            selectedUnit = "cm"
+            oneinchFixed = "2.54 cm"
+        } else {
+            selectedUnit = "tum"
+            oneinchFixed = "1 tum"
+        }
+        resultTv.text = "Största block: ${biggestYield.blockSize} $selectedUnit"
+        twoInch.text = "Antal ${biggestYield.preferredThickness} $selectedUnit: ${biggestYield.preferredPlank}"
+        oneInch.text = "Antal $oneinchFixed: ${biggestYield.oneInches}"
+        spillage.text = "Spill: ${biggestYield.spill} $selectedUnit"
     }
 }

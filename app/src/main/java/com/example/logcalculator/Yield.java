@@ -5,9 +5,9 @@ public class Yield {
     private int preferredPlank;
     private int oneInches;
     private double spill;
-    private int preferredThickness;
+    private double preferredThickness;
 
-    public Yield(int amountPreferred, int amountOne, double spill, double blockSize, int thickness) {
+    public Yield(int amountPreferred, int amountOne, double spill, double blockSize, double thickness) {
         preferredPlank = amountPreferred;
         oneInches = amountOne;
         this.spill = spill;
@@ -15,7 +15,7 @@ public class Yield {
         preferredThickness = thickness;
     }
 
-    public Yield(int amountOne, double spill, double blockSize, int preferredThickness) {
+    public Yield(int amountOne, double spill, double blockSize, double preferredThickness) {
         this(0, amountOne, spill, blockSize, preferredThickness);
     }
 
@@ -39,11 +39,11 @@ public class Yield {
         this.preferredPlank = preferredPlank;
     }
 
-    public int getPreferredThickness() {
+    public double getPreferredThickness() {
         return preferredThickness;
     }
 
-    public void setPreferredThickness(int preferredThickness) {
+    public void setPreferredThickness(double preferredThickness) {
         this.preferredThickness = preferredThickness;
     }
 

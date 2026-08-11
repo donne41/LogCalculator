@@ -65,13 +65,9 @@ public class SquareCalculator {
             commonYield.setSpill(preferredYield.getSpill());
             commonYield.setPreferredThickness(preferredThickness);
         }
-        if (outputMetric) {
-            commonYield.setBlockSize(convertToMetric(imperialSquare));
-            return commonYield;
-        } else {
-            commonYield.setBlockSize(imperialSquare);
-            return commonYield;
-        }
+        commonYield.setBlockSize(imperialSquare);
+        return commonYield;
+
     }
 
 
@@ -86,7 +82,7 @@ public class SquareCalculator {
 
     public Yield calculatePlanksOfOneInch(double blockSize) {
         int preferredThickness = 1;
-        int amountOneInch = (int) ((blockSize + cutWidth) / (1 + cutWidth));
+        int amountOneInch = (int) ((blockSize + cutWidth) / (preferredThickness + cutWidth));
         int cutAmount = amountOneInch - 1;
         double spill = blockSize - (amountOneInch + cutAmount * 0.25);
         return new Yield(amountOneInch, spill, blockSize, preferredThickness);
@@ -146,5 +142,12 @@ public class SquareCalculator {
         spill = blockSize - ((amountOfPreffered * preferredThickness + amountOneInch) + cutAmount * 0.25);
 
         return new Yield(amountOfPreffered, amountOneInch, spill, blockSize, preferredThickness);
+    }
+
+    public Yield convertYieldUnitToMetric(Yield imperialUnits) {
+        imperialUnits.setPreferredThickness(convertToMetric(imperialUnits.getPreferredThickness()));
+        imperialUnits.setSpill(convertToMetric(imperialUnits.getSpill()));
+        imperialUnits.setBlockSize(convertToMetric(imperialUnits.getBlockSize()));
+        return imperialUnits;
     }
 }
