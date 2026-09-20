@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Krävs för att kunna ladda upp filer till releasen
+      contents: write
 
     steps:
       - name: Checkout code
