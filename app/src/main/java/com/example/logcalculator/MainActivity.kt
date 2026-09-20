@@ -1,6 +1,7 @@
 package com.example.logcalculator
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
@@ -158,10 +159,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculate(bigDia: Double, smallDia: Double) {
-        //logCalc.doubleDiaBig = bigDia
-        //logCalc.doubleDiaSmall = smallDia
-        //val biggestBlock: Double = logCalc.getInchBlock(logCalc.ellipsSquare)
-        //val biggestYield: Yield = logCalc.calculatePlanks(biggestBlock)
         val yield: Yield = logCalc.getYield(bigDia, smallDia)
         if (outputUnitIsMetric) {
             present(logCalc.convertYieldUnitToMetric(yield))
@@ -180,8 +177,13 @@ class MainActivity : AppCompatActivity() {
             selectedUnit = "tum"
             oneinchFixed = "1 tum"
         }
+        if (logCalc.getPreferredThickness() > 1) {
+            twoInch.text = "Antal ${biggestYield.preferredThickness} $selectedUnit: ${biggestYield.preferredPlank}"
+            twoInch.visibility = View.VISIBLE
+        } else {
+            twoInch.visibility = View.GONE
+        }
         resultTv.text = "Största block: ${biggestYield.blockSize} $selectedUnit"
-        twoInch.text = "Antal ${biggestYield.preferredThickness} $selectedUnit: ${biggestYield.preferredPlank}"
         oneInch.text = "Antal $oneinchFixed: ${biggestYield.oneInches}"
         spillage.text = "Spill: ${biggestYield.spill} $selectedUnit"
     }
