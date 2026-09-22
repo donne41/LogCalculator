@@ -6,5 +6,6 @@
     <string name="tum">tum</string>
     <string name="calc">Beräkna</string>
     <string name="selected_thickness">Tjocklek: 1</string>
+    <string name="title">Arbor-beräknare</string>
 
 </resources>
