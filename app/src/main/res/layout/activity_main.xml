@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".MainActivity"
+        android:padding="5dp"
 
 >
 
@@ -33,11 +34,13 @@
                   android:id="@+id/big_input"
                   android:hint="Största diameter"
                   android:layout_margin="20dp"
+                  android:inputType="numberDecimal"
         />
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/inmatningsenhet"
                   android:layout_marginEnd="5dp"
+                  android:layout_gravity="center_vertical"
         >
 
         </TextView>
@@ -45,6 +48,7 @@
                   android:layout_height="wrap_content"
                   android:text="@string/cm"
                   android:id="@+id/inputUnit"
+                  android:layout_gravity="center_vertical"
         >
 
         </TextView>
@@ -53,8 +57,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/input_switch"
                 android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="end"
+                android:layout_gravity="center_vertical"
+                app:trackTint="@color/switchTrack"
+                app:thumbTint="@color/switchThumb"
 
         />
     </LinearLayout>
@@ -69,18 +74,22 @@
                   android:id="@+id/small_input"
                   android:hint="Minsta diameter"
                   android:layout_margin="20dp"
+                  android:inputType="numberDecimal"
+
         />
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/utmatningsenhet"
                   android:layout_margin="3dp"
+                  android:layout_gravity="center_vertical"
         >
         </TextView>
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/tum"
                   android:id="@+id/outputUnit"
+                  android:layout_gravity="center_vertical"
         >
         </TextView>
 
@@ -89,8 +98,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/output_switch"
                 android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="end"
+                android:layout_gravity="center_vertical"
+                app:trackTint="@color/switchTrack"
+                app:thumbTint="@color/switchThumb"
+
 
         />
 
@@ -102,36 +113,52 @@
     >
 
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           app:strokeWidth="3dp"
+                                                           app:strokeColor="@color/edge"
         >
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="Prioritera tjocklek"
-            >
 
-            </TextView>
-            <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="40sp"
-                    android:id="@+id/thickness_bar"
-                    android:layout_weight="1"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:progress="1"
 
-            />
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="5dp"
-                      android:id="@+id/selected_thickness"
-                      android:text="@string/selected_thickness"
-            >
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:padding="5dp">
 
-            </TextView>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Prioritera tjocklek av plank"
+                          android:paddingLeft="5dp"
+                          android:textStyle="bold"
+                          android:textSize="17dp"
 
-        </LinearLayout>
+                >
+
+                </TextView>
+                <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="40sp"
+                        android:id="@+id/thickness_bar"
+                        android:layout_weight="1"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:progress="1"
+
+                />
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="5dp"
+                          android:id="@+id/selected_thickness"
+                          android:text="@string/selected_thickness"
+                          android:textSize="15dp"
+                          android:paddingLeft="5dp"
+                >
+
+                </TextView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
     </LinearLayout>
     <Button android:layout_width="125dp"
             android:layout_height="60dp"
@@ -143,41 +170,49 @@
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
+              android:padding="3dp"
               android:id="@+id/textinput_error"
-              android:textColor="#FF0000"
+              android:textColor="@color/errorRed"
+              android:textSize="20dp"
+              android:textStyle="bold"
     />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical"
+    >
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="20dp"
-              android:id="@+id/result"
-              android:text="Största block: "
-              android:textSize="17sp"
-    />
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="20dp"
-              android:id="@+id/twoInch"
-              android:text="Antal 2 tum: "
-              android:textSize="17sp"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="20dp"
+                  android:id="@+id/result"
+                  android:text="Största block "
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="20dp"
+                  android:id="@+id/twoInch"
+                  android:text="Antal 2 tum: "
+                  android:textSize="17sp"
 
-    />
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="20dp"
-              android:id="@+id/oneInch"
-              android:text="Antal 1 tum: "
-              android:textSize="17sp"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="20dp"
+                  android:id="@+id/oneInch"
+                  android:text="Antal 1 tum: "
+                  android:textSize="17sp"
 
-    />
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="20dp"
-              android:id="@+id/spill"
-              android:text="Spill: "
-              android:textSize="17sp"
+        />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="20dp"
+                  android:id="@+id/spill"
+                  android:text="Spill: "
+                  android:textSize="17sp"
 
-    />
+        />
+    </LinearLayout>
 
 
 </LinearLayout>

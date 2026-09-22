@@ -86,9 +86,9 @@ public class SquareCalculator {
 
     public Yield calculatePlanksOfOneInch(double blockSize) {
         int preferredThickness = 1;
-        int amountOneInch = (int) ((blockSize + cutWidth) / (preferredThickness + cutWidth));
+        int amountOneInch = getAmountOfPlanks(blockSize, 1);
         int cutAmount = amountOneInch - 1;
-        double spill = blockSize - (amountOneInch + cutAmount * 0.25);
+        double spill = blockSize - (amountOneInch + cutAmount * cutWidth);
         return new Yield(amountOneInch, spill, blockSize, preferredThickness);
     }
 
@@ -97,13 +97,13 @@ public class SquareCalculator {
         int amountOfPreferred = getAmountOfPlanks(blockSize, preferredThickness);
 
         double rest = getRestOfPreferred(blockSize, amountOfPreferred);
-        if (rest > 1.25) rest -= cutWidth;
+        if (rest > (1 + cutWidth)) rest -= cutWidth;
 
         int amountOneInch = getAmountOfPlanks(rest, 1);
         int cutAmount = getCutAmount(amountOfPreferred, amountOneInch);
         if (getRestFromRest(rest, amountOneInch, amountOfPreferred)) cutAmount++;
 
-        double spill = blockSize - ((amountOfPreferred * preferredThickness + amountOneInch) + cutAmount * 0.25);
+        double spill = blockSize - ((amountOfPreferred * preferredThickness + amountOneInch) + cutAmount * cutWidth);
         return new Yield(amountOfPreferred, amountOneInch, spill, blockSize, preferredThickness);
 
     }
@@ -116,10 +116,10 @@ public class SquareCalculator {
 
     private boolean getRestFromRest(double rest, int amountOfOneInch, int amountOfPref) {
         if (amountOfOneInch > 1) {
-            return rest > amountOfOneInch + (amountOfOneInch - 1) * 0.25;
+            return rest > amountOfOneInch + (amountOfOneInch - 1) * cutWidth;
         }
         if (amountOfOneInch == 1) {
-            return rest > amountOfOneInch + 0.25;
+            return rest > amountOfOneInch + cutWidth;
         }
         return rest > 0 && amountOfPref > 1;
     }
@@ -130,51 +130,12 @@ public class SquareCalculator {
 
     private double getRestOfPreferred(double blockSize, int amountPreferred) {
         if (amountPreferred > 1) {
-            return blockSize - amountPreferred * preferredThickness - (amountPreferred - 1) * 0.25;
+            return blockSize - amountPreferred * preferredThickness - (amountPreferred - 1) * cutWidth;
         }
         if (amountPreferred == 1) {
-            return blockSize - preferredThickness - amountPreferred * 0.25;
+            return blockSize - preferredThickness - amountPreferred * cutWidth;
         }
-
         return blockSize;
-    }
-
-    public Yield calculateBestYield(double blockSize) {
-        int preferredThickness = 2;
-        int amountOfPreffered = (int) ((blockSize + cutWidth) / (preferredThickness + cutWidth));
-        int amountOneInch = 0;
-        double possibleOneInch;
-        boolean evenOneInch = false;
-        int cutAmount;
-        double spill;
-        double rest = blockSize - amountOfPreffered * preferredThickness - ((amountOfPreffered - 1) * 0.25);
-        while (rest != 0 && amountOfPreffered > 0 && !evenOneInch) {
-            possibleOneInch = (rest) % (1 + cutWidth);
-            if (possibleOneInch == 0 || possibleOneInch == 1.0) {
-                amountOneInch = (int) ((rest + cutWidth) / (1 + cutWidth));
-                cutAmount = amountOfPreffered + amountOneInch - 1;
-                spill = blockSize - ((amountOfPreffered * preferredThickness + amountOneInch) + cutAmount * 0.25);
-                if (spill > 0 || spill < 0) {
-                    evenOneInch = false;
-                } else {
-                    evenOneInch = true;
-                    continue;
-                }
-            }
-            if (amountOfPreffered % 2 != 0) {
-                rest += 0.25;
-            }
-            amountOfPreffered--;
-            rest += preferredThickness;
-
-        }
-        if (amountOfPreffered == 0) {
-            amountOneInch = (int) ((blockSize + cutWidth) / (1 + cutWidth));
-        }
-        cutAmount = amountOfPreffered + amountOneInch - 1;
-        spill = blockSize - ((amountOfPreffered * preferredThickness + amountOneInch) + cutAmount * 0.25);
-
-        return new Yield(amountOfPreffered, amountOneInch, spill, blockSize, preferredThickness);
     }
 
     public Yield convertYieldUnitToMetric(Yield imperialUnits) {

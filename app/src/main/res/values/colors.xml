@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background">#CAFAB7</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primaryLight">#732A00</color>
+    <color name="secondaryLight">#032900</color>
+    <color name="accentLight">#732A00</color>
+    <color name="surfaceLight">#73000F</color>
+    <color name="edge">#732A00</color>
+    <color name="defGreen">#0F7300</color>
+    <color name="errorRed">#FF0000</color>
+    <color name="switchThumb">#732A00</color>
+    <color name="switchTrack">#241C00</color>
+
+
 </resources>

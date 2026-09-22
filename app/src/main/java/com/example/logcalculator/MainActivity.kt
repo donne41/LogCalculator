@@ -1,7 +1,9 @@
 package com.example.logcalculator
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
@@ -80,10 +82,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners() {
         calcbtn.setOnClickListener {
             try {
-                errorText.text = ""
+                errorText.visibility = View.GONE
                 checkInput()
+                closeSoftKeyboard()
             }catch (e: IllegalArgumentException){
                 errorText.text = e.message
+                errorText.visibility = View.VISIBLE
             }
         }
         inputUnit.setOnClickListener {
@@ -123,6 +127,14 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun closeSoftKeyboard() {
+        bigDiameter.clearFocus()
+        smallDiameter.clearFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(smallDiameter.windowToken, 0)
+        imm.hideSoftInputFromWindow(bigDiameter.windowToken, 0)
     }
 
     private fun checkInput() {
@@ -183,8 +195,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             twoInch.visibility = View.GONE
         }
+        if (biggestYield.oneInches > 0) {
+            oneInch.text = "Antal $oneinchFixed: ${biggestYield.oneInches}"
+            oneInch.visibility = View.VISIBLE
+        } else {
+            oneInch.visibility = View.GONE
+        }
         resultTv.text = "Största block: ${biggestYield.blockSize} $selectedUnit"
-        oneInch.text = "Antal $oneinchFixed: ${biggestYield.oneInches}"
         spillage.text = "Spill: ${biggestYield.spill} $selectedUnit"
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#06001F</color>
+    <color name="primaryDark">#570000</color>
+    <color name="onPrimaryDark">#FFFFFFFF</color>
+    <color name="surfaceDark">#000A42</color>
+    <color name="onSurfaceDark">#FFFFFFFF</color>
+    <color name="accentDark">#421700</color>
+    <color name="switchTrack">#000042</color>
+    <color name="switchThumb">#570000</color>
+    <color name="edge">#250804</color>
+
+
+</resources>
