@@ -14,4 +14,11 @@
     <color name="switchTrack">#241C00</color>
 
 
+    <color name="primaryDark">#570000</color>
+    <color name="onPrimaryDark">#FFFFFFFF</color>
+    <color name="surfaceDark">#000A42</color>
+    <color name="onSurfaceDark">#FFFFFFFF</color>
+    <color name="accentDark">#421700</color>
+
+
 </resources>
